@@ -293,7 +293,9 @@ devices:
 - /dev/sdd
 ```
 ### 8.Run playbook
+```
 ansible-playbook playbook.yml
+```
 
 #### Ref: https://kruschecompany.com/ceph-ansible/
 #### Ref2: https://www.server-world.info/en/note?os=CentOS_7&p=ceph14&f=1
