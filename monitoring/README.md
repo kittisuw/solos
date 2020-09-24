@@ -6,10 +6,28 @@
 4. File values.yaml after clone prometheus-operator repo
 
 ### Step by step
-1. create secret for thanos-sidecar connect persistent volumn name "thanos-objstore-config"
+1. create secret file(key) form s3 credential for thanos-sidecar connect persistent volumn name "thanos-objstore-config"
 ```
 kubectl -n monitoring create secret generic thanos-objstore-config –from-file=thanos.yaml=thanos-secret.yaml
 ```
+2.Add thanos-sidecar to prometheus-operator config
+```
+vi /prometheus-operator/values.yaml
+...
+thanos:
+      baseImage: quay.io/thanos/thanos
+      version: v0.10.1
+      objectStorageConfig:
+        key: thanos.yaml
+        name: thanos-objstore-config
+...
+```
+
+
+
+
+
+
 
 
 ### Add new name space
