@@ -35,17 +35,22 @@ thanos:
 ```
 #kubectl apply -f querier-service-monitor.yaml
 ```
-#### 5. create Service for thanos-peers
+#### 6. create Service for thanos-peers
 ```
 #kubectl apply -f thanos-peers-svc.yaml
 ```
 
-#### 5. create ConfigMap for thanos-store
+#### 7. create ConfigMap for thanos-store
 ```
 #kubectl apply -f thanos-store.yaml
 ```
 
-#### 5. create StatefulSet of thanos-compactor
+#### 8. create StatefulSet of thanos-compactor
 ```
 # kubectl apply -f thanos-compactor.yaml
+```
+
+#### 9. create Service of thanos-compactor
+```
+# kubectl apply -f thanos-compactor-service.yaml
 ```
