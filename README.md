@@ -15,6 +15,13 @@ ssh-copy-id ubuntu@10.233.254.11
 ssh-copy-id ubuntu@10.233.254.12
 ssh-copy-id ubuntu@10.233.254.13
 ```
+
+test
+```
+ssh ubuntu@10.233.254.11
+ssh ubuntu@10.233.254.12
+ssh ubuntu@10.233.254.13
+```
 ### 3. add host and test
 ```
 vi /etc/ansible/hosts
@@ -35,6 +42,7 @@ vi /etc/ansible/hosts
 [grafana-server]
 192.168.2.1
 ```
+test
 ```
 ansible --list-host all
 ansible -m ping all
