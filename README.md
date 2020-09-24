@@ -16,11 +16,29 @@ ssh-copy-id ubuntu@10.233.254.12
 ssh-copy-id ubuntu@10.233.254.13
 ```
 ### 3. add host and test
+```
 vi /etc/ansible/hosts
+
+[mons]
+10.233.254.11
+10.233.254.12
+10.233.254.13
+
+[osds]
+10.233.254.11
+10.233.254.12
+10.233.254.13
+
+[mgrs]
+10.233.254.11
+
+[grafana-server]
+192.168.2.1
+```
+```
 ansible --list-host all
 ansible -m ping all
-
-
+```
 
 ### end 
 ansible-playbook -i hosts playbook.yml
