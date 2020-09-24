@@ -29,5 +29,13 @@ thanos:
 ```
 #### 4.Create ingress for thanos-sidcar
 ```
-kubectl apply -f thanos-sidecar-ingress.yaml
+#kubectl apply -f thanos-sidecar-ingress.yaml
+```
+#### 5. create ServiceMonitor
+```
+#kubectl apply -f querier-service-monitor.yaml
+```
+#### 5. create Service for thanos-peers
+```
+#kubectl apply -f thanos-peers-svc.yaml
 ```
