@@ -6,6 +6,7 @@
 4. File values.yaml after clone prometheus-operator repo
 
 ### Step by step
+### THANOS-QUERY AND THANOS-SIDCAR
 #### 1. create secret file(key) form s3 credential for thanos-sidecar connect persistent volumn name "thanos-objstore-config"
 ```
 #kubectl -n monitoring create secret generic thanos-objstore-config –from-file=thanos.yaml=thanos-secret.yaml
@@ -35,16 +36,17 @@ thanos:
 ```
 #kubectl apply -f querier-service-monitor.yaml
 ```
+### THANOS-PEERS
 #### 6. create Service of thanos-peers
 ```
 #kubectl apply -f thanos-peers-svc.yaml
 ```
-
+### THANOS-STORE
 #### 7. create ConfigMap of thanos-store
 ```
 #kubectl apply -f thanos-store.yaml
 ```
-### COMPACTOR
+### THANOS-COMPACT
 #### 8. create StatefulSet of thanos-compactor
 ```
 #kubectl apply -f thanos-compactor.yaml
