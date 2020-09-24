@@ -54,3 +54,8 @@ thanos:
 ```
 # kubectl apply -f thanos-compactor-service.yaml
 ```
+
+#### 10. create ServiceMonitor of thanos-compactor
+```
+kubectl apply -f thanos-compactor-service-monitor.yaml
+```
