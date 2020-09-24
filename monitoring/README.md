@@ -6,8 +6,10 @@
 4. File values.yaml after clone prometheus-operator repo
 
 ### Step by step
-1. 
-
+1. create secret for thanos-sidecar connect persistent volumn name "thanos-objstore-config"
+```
+kubectl -n monitoring create secret generic thanos-objstore-config –from-file=thanos.yaml=thanos-secret.yaml
+```
 
 
 ### Add new name space
