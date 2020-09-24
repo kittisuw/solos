@@ -24,6 +24,6 @@ thanos:
 #helm install prom-op stable/prometheus-operator — namespace monitoring -f values.yaml
 ```
 #### 3.Create deployment for thanos-query
-...
+```
 kubectl apply -f querier-deployment.yaml
-...
+```
