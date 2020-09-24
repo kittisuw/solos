@@ -44,3 +44,8 @@ thanos:
 ```
 #kubectl apply -f thanos-store.yaml
 ```
+
+#### 5. create StatefulSet of thanos-compactor
+```
+# kubectl apply -f thanos-compactor.yaml
+```
