@@ -27,3 +27,5 @@ thanos:
 ```
 #kubectl apply -f querier-deployment.yaml
 ```
+#### 4.Create ingress for thanos-sidcar
+kubectl apply -f thanos-sidecar-ingress.yaml
