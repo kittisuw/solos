@@ -25,5 +25,5 @@ thanos:
 ```
 #### 3.Create deployment for thanos-query
 ```
-kubectl apply -f querier-deployment.yaml
+#kubectl apply -f querier-deployment.yaml
 ```
