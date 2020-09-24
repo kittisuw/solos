@@ -275,9 +275,16 @@ ansible -m ping all
     - ansible_os_family in ['RedHat', 'Suse']
 ```
 
-
-
-
+### 7.Edit file site.yml group_vars/all.yml for internal network
+```
+ceph_origin: repository
+ceph_repository: community
+ceph_stable_release: nautilus
+monitor_interface: eth0
+journal_size: 5120
+#public_network: 0.0.0.0/0 - leave commented
+cluster_network: 10.0.1.0/24 #specify the network for internal traffic
+```
 
 ### end 
 ansible-playbook -i hosts playbook.yml
