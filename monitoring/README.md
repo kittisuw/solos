@@ -23,15 +23,7 @@ thanos:
 ...
 #helm install prom-op stable/prometheus-operator — namespace monitoring -f values.yaml
 ```
-
-
-
-
-
-
-
-
-### Add new name space
-```
-kubectl apply -f namespace.yml
-```
+3.Create deployment for thanos-query
+...
+kubectl apply -f querier-deployment.yaml
+...
