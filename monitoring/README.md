@@ -1,4 +1,8 @@
-# How to install Prometheus with thanos
+# How to install Prometheus HA with Thanos for Kubernetes Monitoring
+### Prerequisites
+1. Object storage for side-car and Thanos (we're using ceph)
+2. Install helm https://docs.aws.amazon.com/eks/latest/userguide/helm.html
+3. 
 ### Add new name space
 ```
 kubectl apply -f namespace.yml
