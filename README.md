@@ -6,17 +6,21 @@ sudo yum install git
 pip3 install virtualenv
 useradd -m -d /home/ansible -s /bin/bash -c "ansible" ansible
 ```
-2.Exchange key between ansible and velonica (user ubuntu)
-
-
-----
-3. add host and test
-
+### 2.Exchange key between ansible and velonica (user ubuntu)
+```
+su -i -u ansible
+cd .ssh
+ssh-keygen -b 4096
+ssh-copy-id ubuntu@10.233.254.11
+ssh-copy-id ubuntu@10.233.254.12
+ssh-copy-id ubuntu@10.233.254.13
+```
+### 3. add host and test
 vi /etc/ansible/hosts
 ansible --list-host all
 ansible -m ping all
 
 
 
-end. 
+### end 
 ansible-playbook -i hosts playbook.yml
