@@ -6,7 +6,22 @@ sudo yum install git
 pip3 install virtualenv
 useradd -m -d /home/ansible -s /bin/bash -c "ansible" ansible
 ```
-### 2.Exchange key between ansible and velonica (user ubuntu)
+### 2.Clone repo ceph-ansible 
+```
+su -i -u ansible
+git clone https://github.com/ceph/ceph-ansible.git
+
+virtualenv .ceph-ansible
+source .ceph-ansible/bin/activate
+cd ceph-ansible
+pip install -r requirements.txt
+
+cp site.yml.sample site.yml
+cp group_vars/all.yml.sample group_vars/all.yml
+cp group_vars/mons.yml.sample group_vars/mons.yml
+cp group_vars/osds.yml.sample group_vars/osds.yml
+```
+### 3.Exchange key between ansible and velonica (user ubuntu)
 ```
 su -i -u ansible
 cd .ssh
@@ -50,3 +65,6 @@ ansible -m ping all
 
 ### end 
 ansible-playbook -i hosts playbook.yml
+
+
+#### Ref: https://kruschecompany.com/ceph-ansible/
