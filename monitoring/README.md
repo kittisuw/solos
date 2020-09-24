@@ -3,6 +3,8 @@
 1. Object storage for side-car and Thanos (we're using ceph)
 2. Install helm https://docs.aws.amazon.com/eks/latest/userguide/helm.html
 3. Install Prometheus and grafana with prometheus-operator repo https://github.com/helm/charts/tree/master/stable/prometheus-operator
+*Further development has moved to helmchart [kube-prometheus-stack](https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack)
+
 4. File values.yaml after clone prometheus-operator repo
 
 ### Step by step
@@ -61,3 +63,12 @@ thanos:
 ```
 #kubectl apply -f thanos-compactor-service-monitor.yaml
 ```
+### Check all service
+Prometheus:
+kubectl port-forward service/prometheus-operated 9090:9090 — namespace monitoring &
+Grafana:
+kubectl port-forward service/prometheus-operator-grafana 3000:80 — namespace monitoring
+Thanos:
+kubectl port-forward service/thanos-query 10902:9090 — namespace monitoring &
+
+Add querier URL “thanos-query.monitoring.svc.cluster.local:9090” as a prometheus data source in grafana. Check the s3 bucket for data.
