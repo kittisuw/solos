@@ -23,39 +23,39 @@ thanos:
 ...
 #helm install prom-op stable/prometheus-operator — namespace monitoring -f values.yaml
 ```
-#### 3.Create deployment for thanos-query
+#### 3.Create deployment of thanos-query
 ```
 #kubectl apply -f querier-deployment.yaml
 ```
-#### 4.Create ingress for thanos-sidcar
+#### 4.Create ingress of thanos-sidcar
 ```
 #kubectl apply -f thanos-sidecar-ingress.yaml
 ```
-#### 5. create ServiceMonitor
+#### 5. create ServiceMonitor of thanos-query
 ```
 #kubectl apply -f querier-service-monitor.yaml
 ```
-#### 6. create Service for thanos-peers
+#### 6. create Service of thanos-peers
 ```
 #kubectl apply -f thanos-peers-svc.yaml
 ```
 
-#### 7. create ConfigMap for thanos-store
+#### 7. create ConfigMap of thanos-store
 ```
 #kubectl apply -f thanos-store.yaml
 ```
-
+---
 #### 8. create StatefulSet of thanos-compactor
 ```
-# kubectl apply -f thanos-compactor.yaml
+#kubectl apply -f thanos-compactor.yaml
 ```
 
 #### 9. create Service of thanos-compactor
 ```
-# kubectl apply -f thanos-compactor-service.yaml
+#kubectl apply -f thanos-compactor-service.yaml
 ```
 
 #### 10. create ServiceMonitor of thanos-compactor
 ```
-kubectl apply -f thanos-compactor-service-monitor.yaml
+#kubectl apply -f thanos-compactor-service-monitor.yaml
 ```
