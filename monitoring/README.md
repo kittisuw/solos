@@ -39,3 +39,8 @@ thanos:
 ```
 #kubectl apply -f thanos-peers-svc.yaml
 ```
+
+#### 5. create ConfigMap for thanos-store
+```
+#kubectl apply -f thanos-store.yaml
+```
