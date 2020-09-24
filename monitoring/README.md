@@ -8,7 +8,7 @@
 ### Step by step
 1. create secret file(key) form s3 credential for thanos-sidecar connect persistent volumn name "thanos-objstore-config"
 ```
-kubectl -n monitoring create secret generic thanos-objstore-config –from-file=thanos.yaml=thanos-secret.yaml
+# kubectl -n monitoring create secret generic thanos-objstore-config –from-file=thanos.yaml=thanos-secret.yaml
 ```
 2.Add thanos-sidecar to prometheus-operator config
 ```
@@ -21,6 +21,7 @@ thanos:
         key: thanos.yaml
         name: thanos-objstore-config
 ...
+# helm install prom-op stable/prometheus-operator — namespace monitoring -f values.yaml
 ```
 
 
