@@ -286,7 +286,7 @@ journal_size: 5120
 cluster_network: 10.0.1.0/24 #specify the network for internal traffic
 ```
 
-### 7.Edit file group_vars/osds.yml for internal network
+### 7.Edit file group_vars/osds.yml for osd
 ```
 devices:
 - /dev/sda
@@ -294,7 +294,7 @@ devices:
 ```
 ### 8.Run playbook
 ```
-ansible-playbook playbook.yml
+ansible-playbook site.yml
 ```
 
 #### Ref: https://kruschecompany.com/ceph-ansible/
