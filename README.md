@@ -299,4 +299,5 @@ ansible-playbook site.yml
 
 #### Ref: https://kruschecompany.com/ceph-ansible/
 #### Ref2: https://www.server-world.info/en/note?os=CentOS_7&p=ceph14&f=1
+#### Ref3: https://github.com/tekchansin/cs100-workshop
 
