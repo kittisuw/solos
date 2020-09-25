@@ -300,4 +300,6 @@ ansible-playbook site.yml
 #### Ref: https://kruschecompany.com/ceph-ansible/
 #### Ref2: https://www.server-world.info/en/note?os=CentOS_7&p=ceph14&f=1
 #### Ref3: https://github.com/tekchansin/cs100-workshop
+#### Ref4 : https://www.evernote.com/shard/s294/client/snv?noteGuid=09802ee0-3dc0-4bd1-83e9-5a162c345631&noteKey=0594fe5e4978b324&sn=https%3A%2F%2Fwww.evernote.com%2Fshard%2Fs294%2Fsh%2F09802ee0-3dc0-4bd1-83e9-5a162c345631%2F0594fe5e4978b324&title=Install%2BCeph%2Bon%2BUbuntu%2BVM
+
 
