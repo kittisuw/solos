@@ -298,6 +298,4 @@ devices:
 ### 8.Run playbook
 ```
 ansible-playbook site.yml
-or 
-ansible-playbook site.yml-i inventory_hosts
 ```
