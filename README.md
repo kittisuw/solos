@@ -6,6 +6,14 @@ sudo yum install git
 pip3 install virtualenv
 useradd -m -d /home/ansible -s /bin/bash -c "ansible" ansible
 ```
+etc
+```
+sudo yum -y update
+sudo yum -y install epel-repo
+sudo yum -y update
+sudo yum -y install ansible
+ansible --version
+```
 ### 2.Clone repo ceph-ansible 
 ```
 su -i -u ansible
@@ -45,8 +53,7 @@ vi /etc/ansible/hosts
 ### 4.Exchange key between ansible and velonica (user ubuntu)
 ```
 su -i -u ansible
-cd .ssh
-ssh-keygen -b 4096
+ssh-keygen
 ssh-copy-id ubuntu@10.233.254.11
 ssh-copy-id ubuntu@10.233.254.12
 ssh-copy-id ubuntu@10.233.254.13
@@ -275,7 +282,7 @@ ansible -m ping all
     - ansible_os_family in ['RedHat', 'Suse']
 ```
 
-### 7.Edit file site.yml group_vars/all.yml for internal network
+### 7.Edit file group_vars/all.yml for internal network
 ```
 ceph_origin: repository
 ceph_repository: community
@@ -283,23 +290,21 @@ ceph_stable_release: nautilus
 monitor_interface: eth0
 journal_size: 5120
 #public_network: 0.0.0.0/0 - leave commented
-cluster_network: 10.0.1.0/24 #specify the network for internal traffic
+cluster_network: 10.0.1.0/24 #specify the network for internal traffic #vlan 30 
 ```
-
-### 7.Edit file group_vars/osds.yml for osd
+### 8.Edit file group_vars/osds.yml for osd
 ```
+...
+osd_auto_discovery: true
+...
 devices:
 - /dev/sda
 - /dev/sdd
+...
 ```
 ### 8.Run playbook
 ```
 ansible-playbook site.yml
+or 
+ansible-playbook site.yml-i inventory_hosts
 ```
-
-#### Ref: https://kruschecompany.com/ceph-ansible/
-#### Ref2: https://www.server-world.info/en/note?os=CentOS_7&p=ceph14&f=1
-#### Ref3: https://github.com/tekchansin/cs100-workshop
-#### Ref4 : https://www.evernote.com/shard/s294/client/snv?noteGuid=09802ee0-3dc0-4bd1-83e9-5a162c345631&noteKey=0594fe5e4978b324&sn=https%3A%2F%2Fwww.evernote.com%2Fshard%2Fs294%2Fsh%2F09802ee0-3dc0-4bd1-83e9-5a162c345631%2F0594fe5e4978b324&title=Install%2BCeph%2Bon%2BUbuntu%2BVM
-
-
