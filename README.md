@@ -1,13 +1,6 @@
 # Install and config ceph-ansible centos7
 ### 1.Install git,virtualenv and add user ansible
 ```
-rpm -qa |grep python3
-sudo yum install git
-pip3 install virtualenv
-useradd -m -d /home/ansible -s /bin/bash -c "ansible" ansible
-```
-etc
-```
 sudo yum -y update
 sudo yum -y install epel-repo
 sudo yum -y update
