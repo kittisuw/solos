@@ -6,6 +6,8 @@ sudo yum -y install epel-repo
 sudo yum -y update
 sudo yum -y install ansible
 ansible --version
+sudo yum install git
+pip3 install virtualenv
 ```
 ### 2.Clone repo ceph-ansible 
 ```
