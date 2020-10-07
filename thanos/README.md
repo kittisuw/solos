@@ -1,3 +1,5 @@
+![Overview](https://github.com/kittisuw/solos/blob/master/thanos/img/overview.jpg)
+
 # Installation kube-prometheus-stack (prometheus-operator,alertmanager,Grafana)
 ### 1.Add repo
 ```
