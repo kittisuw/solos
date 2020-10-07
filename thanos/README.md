@@ -8,13 +8,18 @@
 #helm repo update
 #helm repo list
 ```
-# 2. Install kube-prometheus-stack
+### 2. Install kube-prometheus-stack from yaml
 ```
 #helm install -f values.yaml --create-namespace --namespace thanos promstack prometheus-com/kube-prometheus-stack
 ```
 
-
+### 3. Create secret for thanos sidecar
 ``` 
 #kubectl -n thanos create secret generic  thanos-storage-config --from-file=thanos-storage-config.yaml=thanos-storage-config.yaml 
 #kubectl get secret -n monitoring|grep thanos-storage-config
+``` 
+###  4. Install Thanos component(query,store,rule,compact)
+``` 
+#kubectl apply -f thanos-rule-configmap.yaml
+#kubectl apply -f thanos-query.yaml -f thanos-store.yaml -f thanos-rule.yaml -f thanos-compact.yaml
 ``` 
