@@ -18,7 +18,8 @@
 #kubectl -n thanos create secret generic  thanos-storage-config --from-file=thanos-storage-config.yaml=thanos-storage-config.yaml 
 #kubectl get secret -n monitoring|grep thanos-storage-config
 ``` 
-###  4. Install Thanos component(query,store,rule,compact)
+# Installation Thanos component
+###  4. Install Thanos component form yaml file(query,store,rule,compact)
 ``` 
 #kubectl apply -f thanos-rule-configmap.yaml
 #kubectl apply -f thanos-query.yaml -f thanos-store.yaml -f thanos-rule.yaml -f thanos-compact.yaml
