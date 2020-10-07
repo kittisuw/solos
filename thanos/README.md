@@ -24,3 +24,12 @@
 #kubectl apply -f thanos-rule-configmap.yaml
 #kubectl apply -f thanos-query.yaml -f thanos-store.yaml -f thanos-rule.yaml -f thanos-compact.yaml
 ``` 
+
+# Test by set port for and brow your public ip and port
+``` 
+(
+kubectl -n thanos port-forward --address 0.0.0.0 svc/thanos-query 9090 &
+kubectl -n thanos port-forward --address 0.0.0.0 service/thanos-rule 10902
+kubectl -n thanos port-forward --address 0.0.0.0 service/promstack-kube-prometheus-alertmanager 9093
+)
+``` 
