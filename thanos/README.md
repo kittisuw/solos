@@ -34,3 +34,16 @@ kubectl -n thanos port-forward --address 0.0.0.0 service/thanos-rule 10902 &
 kubectl -n thanos port-forward --address 0.0.0.0 service/promstack-kube-prometheus-alertmanager 9093 &
 )
 ``` 
+
+
+# Uninstallations
+``` 
+helm uninstall promstack -n thanos
+kubectl delete crd prometheuses.monitoring.coreos.com
+kubectl delete crd prometheusrules.monitoring.coreos.com
+kubectl delete crd servicemonitors.monitoring.coreos.com
+kubectl delete crd podmonitors.monitoring.coreos.com
+kubectl delete crd alertmanagers.monitoring.coreos.com
+kubectl delete crd thanosrulers.monitoring.coreos.co
+kubectl delete ns/thanos
+``` 
