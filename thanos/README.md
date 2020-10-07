@@ -12,6 +12,7 @@ helm repo list
 ```
 helm install -f values.yaml --create-namespace --namespace thanos promstack prometheus-com/kube-prometheus-stack
 ```
+>using this command for export setting before edit <helm inspect values prometheus-com/kube-prometheus-stack > values.yaml>
 
 ### 3. Create secret for thanos sidecar
 ``` 
