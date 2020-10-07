@@ -1,4 +1,4 @@
-# Installation kube-prometheus-stack
+# Installation kube-prometheus-stack (prometheus-operator,alertmanager,Grafana)
 ### 1.Add repo
 ```
 sudo snap install helm --classic
@@ -19,8 +19,8 @@ helm install -f values.yaml --create-namespace --namespace thanos promstack prom
 kubectl -n thanos create secret generic  thanos-storage-config --from-file=thanos-storage-config.yaml=thanos-storage-config.yaml 
 kubectl get secret -n monitoring|grep thanos-storage-config
 ``` 
-# Installation Thanos component
-###  4. Install Thanos component form yaml file(query,store,rule,compact)
+# Installation Thanos component(query,store,rule,compact)
+###  4. Install
 ``` 
 kubectl apply -f thanos-rule-configmap.yaml
 kubectl apply -f thanos-query.yaml -f thanos-store.yaml -f thanos-rule.yaml -f thanos-compact.yaml
@@ -34,7 +34,6 @@ kubectl -n thanos port-forward --address 0.0.0.0 service/thanos-rule 10902 &
 kubectl -n thanos port-forward --address 0.0.0.0 service/promstack-kube-prometheus-alertmanager 9093 &
 )
 ``` 
-
 
 # Uninstallations
 ``` 
