@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: thanos-ruler-rules
+  namespace: thanos
+data:
+  alert_down_services.rules.yaml: |
+    groups:
+    - name: metamonitoring
+      rules:
+      - alert: PrometheusReplicaDown
+        annotations:
+          message: Prometheus replica in cluster {{$labels.cluster}} has disappeared from Prometheus target discovery.
+        expr: |
+          sum(up{cluster="prometheus-ha", instance=~".*:9090", job="kubernetes-service-endpoints"}) by (job,cluster) < 3
+        for: 15s
+        labels:
+          severity: critical
+    - name: jibmonitoring
+      rules:
+      - alert: grafanamonitoring
+        annotations:
+          message: This message indicate pod overload jib KYYYYYYYYYY v2
+        expr: |
+          up{namespace="thanos"}==1
+        for: 15s
+        label:
+          app: jibtest
+          severity: critical
