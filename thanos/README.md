@@ -25,8 +25,7 @@ kubectl get secret -n monitoring|grep thanos-storage-config
 kubectl apply -f thanos-rule-configmap.yaml
 kubectl apply -f thanos-query.yaml -f thanos-store.yaml -f thanos-rule.yaml -f thanos-compact.yaml
 ``` 
-
-# Test by set port for and brow your public ip and port
+### Set port forward and Test Thanos-query,Thanos-rule,Alertmanager via browser
 ``` 
 (
 kubectl -n thanos port-forward --address 0.0.0.0 svc/thanos-query 9090 &
