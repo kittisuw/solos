@@ -2,14 +2,14 @@
 # Service port overview
 Service | Internal port | Public port
 ------------ | ------------- | -------------
-Prometheus | 1234 | 1234
+**Prometheus** | 1234 | 1234
 **Grafana** | 1234 | 1234
 **Alertmanager**| 1234 | 1234
-Thanos-sidecar | 10901(gRPC) | 1234
-Thanos-query | 10901(gRPC)  | 1234
-Thanos-store | 10901(gRPC)  | 1234
-Thanos-rule | 10901(gRPC)  | 1234
-Thanos-compact | 10901(gRPC)  | 1234
+**Thanos-sidecar** | 10901(gRPC) | 1234
+**Thanos-query** | 10901(gRPC)  | 1234
+**Thanos-store** | 10901(gRPC)  | 1234
+**Thanos-rule** | 10901(gRPC)  | 1234
+**Thanos-compact** | 10901(gRPC)  | 1234
 
 # Installation kube-prometheus-stack (`Prometheus-operator`,`Prometheus rules`,`Alertmanager`,`Grafana`)
 1.Install helm and add helm-charts
