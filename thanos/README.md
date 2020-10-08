@@ -16,7 +16,7 @@ helm install -f values.yaml --create-namespace --namespace thanos promstack prom
 ```
 >using this command for export setting before edit helm inspect values prometheus-com/kube-prometheus-stack > values.yaml
 
-### 3. Create S3 secret that you config in kube-prometheus-stack 
+### 3. Create S3 secret that you config in values.yaml(kube-prometheus-stack)
 ``` 
 kubectl -n thanos create secret generic  thanos-storage-config --from-file=thanos-storage-config.yaml=thanos-storage-config.yaml 
 kubectl get secret -n monitoring|grep thanos-storage-config
