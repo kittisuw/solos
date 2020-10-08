@@ -12,6 +12,7 @@ Thanos-rule | 1234
 Thanos-compact | 1234
 
 </center>
+
 # Installation kube-prometheus-stack (Prometheus-operator,Prometheus rules,Alertmanager,Grafana)
 1.Install helm and add helm-charts
 ```
