@@ -20,6 +20,9 @@ helm repo add prometheus-com https://prometheus-community.github.io/helm-charts
 helm repo add stable https://kubernetes-charts.storage.googleapis.com/
 helm repo update
 helm repo list
+NAME            URL                                               
+prometheus-com  https://prometheus-community.github.io/helm-charts
+stable          https://kubernetes-charts.storage.googleapis.com/ 
 ```
 2.Install kube-prometheus-stack (namespace:thanos name:promstack)
 ```
@@ -44,6 +47,7 @@ kubectl apply -f thanos-query.yaml -f thanos-store.yaml -f thanos-rule.yaml -f t
 kubectl -n thanos port-forward --address 0.0.0.0 svc/thanos-query 9090 &
 kubectl -n thanos port-forward --address 0.0.0.0 service/thanos-rule 10902 &
 kubectl -n thanos port-forward --address 0.0.0.0 service/promstack-kube-prometheus-alertmanager 9093 &
+kubectl -n thanos port-forward --address 0.0.0.0 service/promstack-grafana 80 & 
 )
 ``` 
 
