@@ -1,4 +1,5 @@
 ![Overview](https://github.com/kittisuw/solos/blob/master/thanos/img/overview.jpg)
+<center>
 # Service port overview
 service | port
 ------------ | -------------
