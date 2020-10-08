@@ -11,7 +11,7 @@ Thanos-store | 10901(gRPC)  | 1234
 Thanos-rule | 10901(gRPC)  | 1234
 Thanos-compact | 10901(gRPC)  | 1234
 
-# Installation kube-prometheus-stack `Prometheus-operator`,`Prometheus rules`,`Alertmanager,Grafana`
+# Installation kube-prometheus-stack `Prometheus-operator`,`Prometheus rules`,`Alertmanager`,`Grafana`
 1.Install helm and add helm-charts
 ```
 sudo snap install helm --classic
