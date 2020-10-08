@@ -21,9 +21,11 @@ helm repo add stable https://kubernetes-charts.storage.googleapis.com/
 helm repo update
 helm repo list
 
+`
 NAME            URL                                               
 prometheus-com  https://prometheus-community.github.io/helm-charts
 stable          https://kubernetes-charts.storage.googleapis.com/ 
+`
 ```
 2.Install kube-prometheus-stack (namespace:thanos name:promstack)
 ```
