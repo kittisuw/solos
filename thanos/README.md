@@ -10,19 +10,19 @@ helm repo add stable https://kubernetes-charts.storage.googleapis.com/
 helm repo update
 helm repo list
 ```
-### 2. Install kube-prometheus-stack (namespace:thanos name:promstack)
+2.Install kube-prometheus-stack (namespace:thanos name:promstack)
 ```
 helm install -f values.yaml --create-namespace --namespace thanos promstack prometheus-com/kube-prometheus-stack
 ```
 >using this command for export setting before edit helm inspect values prometheus-com/kube-prometheus-stack > values.yaml
 
-### 3. Create S3 secret that you config in values.yaml(kube-prometheus-stack)
+3.Create S3 secret that you config in values.yaml(kube-prometheus-stack)
 ```
 kubectl -n thanos create secret generic  thanos-storage-config --from-file=thanos-storage-config.yaml=thanos-storage-config.yaml 
 kubectl get secret -n monitoring|grep thanos-storage-config
 ```
 # Installation Thanos component(query,store,rule,compact)
-###  4. Install
+4.Install
 ``` 
 kubectl apply -f thanos-rule-configmap.yaml
 kubectl apply -f thanos-query.yaml -f thanos-store.yaml -f thanos-rule.yaml -f thanos-compact.yaml
