@@ -1,7 +1,6 @@
 ![Overview](https://github.com/kittisuw/solos/blob/master/thanos/img/overview.jpg)
 # Service port overview
 <center>
-
 service | port
 ------------ | -------------
 Prometheus | 1234
