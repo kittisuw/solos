@@ -1,7 +1,7 @@
 ![Overview](https://github.com/kittisuw/solos/blob/master/thanos/img/overview.jpg)
 
 # Installation kube-prometheus-stack (Prometheus-operator,Prometheus rules,Alertmanager,Grafana)
-### 1.Install helm and add helm-charts
+1.Install helm and add helm-charts
 ```
 sudo snap install helm --classic
 helm init
