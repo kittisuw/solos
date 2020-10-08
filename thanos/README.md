@@ -3,11 +3,13 @@
 service | internal port |Public port
 ------------ | ------------- | -------------
 Prometheus | 1234 | 1234
-Thanos-sidecar | 1234 | 1234
-Thanos-query | 1234 | 1234
-Thanos-store | 1234 | 1234
-Thanos-rule | 1234 | 1234
-Thanos-compact | 1234 | 1234
+Grafana | 1234 | 1234
+Alertmanager| 1234 | 1234
+Thanos-sidecar | 10901 | 1234
+Thanos-query | 10901 | 1234
+Thanos-store | 10901 | 1234
+Thanos-rule | 10901 | 1234
+Thanos-compact | 10901 | 1234
 
 # Installation kube-prometheus-stack (Prometheus-operator,Prometheus rules,Alertmanager,Grafana)
 1.Install helm and add helm-charts
