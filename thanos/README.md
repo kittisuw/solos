@@ -37,7 +37,7 @@ helm install -f values.yaml --create-namespace --namespace thanos promstack prom
 kubectl -n thanos create secret generic  thanos-storage-config --from-file=thanos-storage-config.yaml=thanos-storage-config.yaml 
 kubectl get secret -n monitoring|grep thanos-storage-config
 ```
-# Installation Thanos component(query,store,rule,compact)
+# Installation Thanos component(`query`,`store`,`rule`,`compact`)
 4.Install
 ``` 
 kubectl apply -f thanos-rule-configmap.yaml
