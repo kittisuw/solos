@@ -1,6 +1,6 @@
 ![Overview](https://github.com/kittisuw/solos/blob/master/thanos/img/overview.jpg)
 
-# Installation kube-prometheus-stack (prometheus-operator,alertmanager,Grafana)
+# Installation kube-prometheus-stack (Prometheus-operator,Prometheus rules,Alertmanager,Grafana)
 ### 1.Install helm and add helm-charts
 ```
 sudo snap install helm --classic
@@ -17,10 +17,10 @@ helm install -f values.yaml --create-namespace --namespace thanos promstack prom
 >using this command for export setting before edit helm inspect values prometheus-com/kube-prometheus-stack > values.yaml
 
 ### 3. Create S3 secret that you config in values.yaml(kube-prometheus-stack)
-``` 
+```
 kubectl -n thanos create secret generic  thanos-storage-config --from-file=thanos-storage-config.yaml=thanos-storage-config.yaml 
 kubectl get secret -n monitoring|grep thanos-storage-config
-``` 
+```
 # Installation Thanos component(query,store,rule,compact)
 ###  4. Install
 ``` 
