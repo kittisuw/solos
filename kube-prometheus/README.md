@@ -1,4 +1,5 @@
 # KUBE-PROMETHEUS
+```
 # Clone the Prometheus Operator repository
 git clone https://github.com/kittisuw/solos.git
 cd kube-prometheus
@@ -19,3 +20,4 @@ kubectl --namespace monitoring port-forward --address 0.0.0.0 svc/grafana 3000
 
 # Acces to Alert Manager dashboard
 kubectl --namespace monitoring port-forward --address 0.0.0.0 svc/alertmanager-main 9093
+```
