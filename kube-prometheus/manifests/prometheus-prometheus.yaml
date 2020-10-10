@@ -34,7 +34,7 @@ spec:
   thanos:
     image: quay.io/thanos/thanos:v0.14.0
     objectStorageConfig:
-      key: thanos.yaml
-      name: thanos-objectstorage
+      key: thanos-storage-config.yaml
+      name: thanos-storage-config
     version: v0.14.0
   version: v2.20.0
