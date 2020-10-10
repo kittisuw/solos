@@ -13,11 +13,11 @@ kubectl create -f manifests/
 kubectl get all -n monitoring
 
 # Acces to Prometheus dashboard
-kubectl --namespace monitoring port-forward --address 0.0.0.0 svc/prometheus-k8s 9090
+kubectl --namespace thanos port-forward --address 0.0.0.0 svc/prometheus-k8s 9090
 
 # Acces to Grafana dashboard
-kubectl --namespace monitoring port-forward --address 0.0.0.0 svc/grafana 3000
+kubectl --namespace thanos port-forward --address 0.0.0.0 svc/grafana 3000
 
 # Acces to Alert Manager dashboard
-kubectl --namespace monitoring port-forward --address 0.0.0.0 svc/alertmanager-main 9093
+kubectl --namespace thanos port-forward --address 0.0.0.0 svc/alertmanager-main 9093
 ```
