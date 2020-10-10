@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Install and config ceph-ansible centos7
 ### 1.Install git,virtualenv and add user ansible
 ```
@@ -301,3 +302,6 @@ devices:
 ```
 ansible-playbook site.yml
 ```
+=======
+# solos
+>>>>>>> a4564032c6457fd5f0476785bd5359c259d9581c
