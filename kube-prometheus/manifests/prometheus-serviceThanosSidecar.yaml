@@ -7,6 +7,10 @@ metadata:
   name: prometheus-k8s-thanos-sidecar
   namespace: thanos
 spec:
+  hostAliases:
+  - ip: "127.0.0.1"
+    hostnames:
+    - "foo.local"
   clusterIP: None
   ports:
   - name: grpc
