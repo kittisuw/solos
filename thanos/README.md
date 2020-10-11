@@ -35,7 +35,7 @@ helm install -f values.yaml --create-namespace --namespace thanos promstack prom
 3.Create S3 secret that you config in values.yaml(kube-prometheus-stack)
 ```
 kubectl -n thanos create secret generic  thanos-storage-config --from-file=thanos-storage-config.yaml=thanos-storage-config.yaml 
-kubectl get secret -n monitoring|grep thanos-storage-config
+kubectl get secret -n thanos|grep thanos-storage-config
 ```
 # Installation Thanos component(`query`,`store`,`rule`,`compact`)
 4.Install
