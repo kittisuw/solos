@@ -1,6 +1,6 @@
 ![Overview](https://github.com/kittisuw/solos/blob/master/thanos/img/overview.jpg)
 # Service port overview
-Component | port(Interface) | expose port
+Component | Port(Interface) | Expose port
 ------------ | ------------- | -------------
 **Prometheus** | 10901(HTTP) | 
 **Grafana** | 3000(HTTP) | 
