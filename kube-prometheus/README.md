@@ -10,7 +10,7 @@ until kubectl get servicemonitors --all-namespaces ; do date; sleep 1; echo ""; 
 kubectl create -f manifests/
 
 # Get created resources
-kubectl get all -n monitoring
+kubectl get all -n thanos
 
 # Acces to Prometheus dashboard
 kubectl --namespace thanos port-forward --address 0.0.0.0 svc/prometheus-k8s 9090
