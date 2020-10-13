@@ -22,15 +22,19 @@ git clone https://github.com/kittisuw/solos.git
 kubectl create namespace thanos
 cd thanos
 kubectl apply -f thanos-storage-config.yaml
+``` 
+3.Install kube-prometheus
+```
 cd ../kube-prometheus
 kubectl create -f manifests/setup
 until kubectl get servicemonitors --all-namespaces ; do date; sleep 1; echo ""; done
 kubectl create -f manifests/
 ``` 
-3.check all
+4.check kube-prometheus service
 ``` 
 kubectl get all -n thanos
-``` 
+```
+> https://github.com/prometheus-operator/kube-prometheus
 # Installation Thanos rule config map and main component(`query`,`store`,`rule`,`compact`)
 2.
 ``` 
@@ -52,13 +56,12 @@ k apply -f thanos-ing.yaml
 k describe ing/thanos-ing -n thanos
 ```
 # Uninstallations
-``` 
-helm uninstall promstack -n thanos
-kubectl delete crd prometheuses.monitoring.coreos.com
-kubectl delete crd prometheusrules.monitoring.coreos.com
-kubectl delete crd servicemonitors.monitoring.coreos.com
-kubectl delete crd podmonitors.monitoring.coreos.com
-kubectl delete crd alertmanagers.monitoring.coreos.com
-kubectl delete crd thanosrulers.monitoring.coreos.com
-kubectl delete ns/thanos
+1. kube-prometheus
+```
+cd kube-prometheus
+kubectl delete -f manifests/
+```
+2. thanos
+```
+kubectl delete all --all -n thabos
 ```
