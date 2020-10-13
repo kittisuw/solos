@@ -1,0 +1,24 @@
+kind: Ingress
+metadata:
+  name: thanos-ing
+  namespace: thanos
+spec:
+  rules:
+  - host: thanos-query.solos.velonica.tls
+    http:
+      paths:
+      - backend:
+          serviceName: thanos-query
+          servicePort: 9090
+  - host: thanos-alertmanager.solos.velonica.tls
+    http:
+      paths:
+      - backend:
+          serviceName: alertmanager-main
+          servicePort: 9093
+  - host: thanos-rule.solos.velonica.tls
+    http:
+      paths:
+      - backend:
+          serviceName: thanos-rule
+          servicePort: 10902
