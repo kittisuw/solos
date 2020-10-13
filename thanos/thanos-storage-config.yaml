@@ -5,5 +5,3 @@ config:
   access_key: thanos@k8s
   secret_key: 6cAusrk.n7uthguhgjhxgtlnrSkjpxzn
   insecure: true
-  #signature_version2: false
-  #encryptsse: true
