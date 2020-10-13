@@ -32,7 +32,7 @@ metadata:
   name: thanos-query
   namespace: thanos
 spec:
-  replicas: 1
+  #replicas: 1
   selector:
     matchLabels:
       app.kubernetes.io/component: query-layer
@@ -71,6 +71,13 @@ spec:
         - --store=thanos-store.thanos.svc.cluster.local:10901
         - --store=prometheus-operated.thanos.svc.cluster.local:10901 
         image: quay.io/thanos/thanos:v0.12.0
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
         livenessProbe:
           failureThreshold: 4
           httpGet:
@@ -93,6 +100,32 @@ spec:
           periodSeconds: 5
         terminationMessagePolicy: FallbackToLogsOnError
       terminationGracePeriodSeconds: 120
+---
+apiVersion: autoscaling/v2beta2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: thanos-query-hpa
+  namespace: thanos
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: thanos-query
+  minReplicas: 2
+  maxReplicas: 5
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 50
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 80
 ---
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
