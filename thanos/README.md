@@ -19,8 +19,8 @@ $ git clone https://github.com/kittisuw/solos.git
 # Installation kube-prometheus (`Prometheus-operator include Thanos-sidcar`,`Prometheus rules`,`Alertmanager`,`Grafana`)
 2. Create namespace:thanos and apply S3 secret for object storage that thanos-store and thanos-sidcar using
 ``` 
-$ kubectl create namespace thanos
 $ cd thanos
+$ kubectl create namespace thanos
 $ kubectl apply -f thanos-storage-config.yaml
 ``` 
 3. Install kube-prometheus
