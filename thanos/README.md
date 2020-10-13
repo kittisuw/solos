@@ -11,32 +11,8 @@ Service | Internal port | Public port
 **Thanos-rule** | 10901(gRPC)  | 1234
 **Thanos-compact** | 10901(gRPC)  | 1234
 
-# Installation kube-prometheus-stack (`Prometheus-operator`,`Prometheus rules`,`Alertmanager`,`Grafana`)
-1.Install helm and add helm-charts
-```
-sudo snap install helm --classic
-helm init
-helm repo add prometheus-com https://prometheus-community.github.io/helm-charts
-helm repo add stable https://kubernetes-charts.storage.googleapis.com/
-helm repo update
-helm repo list
-
-NAME            URL                                               
-prometheus-com  https://prometheus-community.github.io/helm-charts
-stable          https://kubernetes-charts.storage.googleapis.com/ 
-
-```
-2.Install kube-prometheus-stack (namespace:thanos name:promstack)
-```
-helm install -f values.yaml --create-namespace --namespace thanos promstack prometheus-com/kube-prometheus-stack
-```
->using this command for export setting before edit helm inspect values prometheus-com/kube-prometheus-stack > values.yaml
-
-3.Create S3 secret that you config in values.yaml(kube-prometheus-stack)
-```
-kubectl -n thanos create secret generic  thanos-storage-config --from-file=thanos-storage-config.yaml=thanos-storage-config.yaml 
-kubectl get secret -n thanos|grep thanos-storage-config
-```
+# Installation kube-prometheus (`Prometheus-operator`,`Prometheus rules`,`Alertmanager`,`Grafana`)
+https://github.com/kittisuw/thanos/blob/master/kube-prometheus/README.md
 # Installation Thanos component(`query`,`store`,`rule`,`compact`)
 4.Install
 ``` 
