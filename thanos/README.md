@@ -17,7 +17,7 @@ Component | Port(Interface) | Expose port
 $ git clone https://github.com/kittisuw/solos.git
 ```
 # Installation kube-prometheus 
-(`Prometheus-operator include Thanos-sidcar`,`Prometheus rules`,`Alertmanager`,`Grafana`)
+(`Prometheus-operator include Thanos-sidcar`,`Prometheus rules`,`Alertmanager`,`Grafana`)   
 2. Create namespace:thanos and apply S3 secret for object storage that thanos-store and thanos-sidcar using
 ``` 
 $ cd thanos
