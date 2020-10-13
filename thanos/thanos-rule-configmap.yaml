@@ -4,26 +4,30 @@ metadata:
   name: thanos-ruler-rules
   namespace: thanos
 data:
-  alert_down_services.rules.yaml: |
+  alert_InstanceDown.rules.yaml: |
     groups:
-    - name: metamonitoring
-      rules:
-      - alert: PrometheusReplicaDown
-        annotations:
-          message: Prometheus replica in cluster {{$labels.cluster}} has disappeared from Prometheus target discovery.
-        expr: |
-          sum(up{cluster="prometheus-ha", instance=~".*:9090", job="kubernetes-service-endpoints"}) by (job,cluster) < 3
-        for: 15s
-        labels:
-          severity: critical
-    - name: jibmonitoring
-      rules:
-      - alert: grafanamonitoring
-        annotations:
-          message: This message indicate pod overload jib KYYYYYYYYYY v2
-        expr: |
-          up{namespace="thanos"}==1
-        for: 15s
-        label:
-          app: jibtest
-          severity: critical
+        - name: natthasw_ex
+          rules:
+
+          # Alert for test.
+          - alert: InstanceDown
+            expr: grafana_api_models_dashboard_insert_total < 50
+            for: 5s
+            labels:
+                severity: critical
+            annotations:
+                module: '{{ $labels.job }}'
+                amoName: '{{ $labels.pod }}'
+                alarmName: 'InstanceDown'
+                description: "{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 5 sec."
+                node: '{{ $labels.job }}'
+                systemName: '{{ $labels.service }}'
+                emsName: '{{ $labels.pod }}'
+                mcZone: ''
+                emsIp: '{{ $labels.instance }}'
+                siteCode: '{{ $labels.pod }}'
+                severity: 'critical'
+                region: BKK
+                nodeIp: '{{ $labels.instance }}'
+                networkType: VTOP
+                msteamUrl: 'https://outlook.office.com/webhook/fd5b48e7-d8ac-4b17-ae4c-02647856d040@833df664-61c8-4af0-bcce-b9eed5f10e5a/IncomingWebhook/368188ddbc6a4ae99f8e7256b96e2220/b37a0e68-660d-4fab-93f5-f414552ef720'
