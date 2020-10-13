@@ -1,15 +1,15 @@
 ![Overview](https://github.com/kittisuw/solos/blob/master/thanos/img/overview.jpg)
 # Service port overview
-Service | Internal port | Public port
+Service | Internal port | expose port
 ------------ | ------------- | -------------
-**Prometheus** | 1234 | 1234
-**Grafana** | 1234 | 1234
-**Alertmanager**| 1234 | 1234
-**Thanos-sidecar** | 10901(gRPC) | 1234
-**Thanos-query** | 10901(gRPC)  | 1234
-**Thanos-store** | 10901(gRPC)  | 1234
-**Thanos-rule** | 10901(gRPC)  | 1234
-**Thanos-compact** | 10901(gRPC)  | 1234
+**Prometheus** | 10901(HTTP) | 
+**Grafana** | 3000(HTTP) | 
+**Alertmanager**| 9093(HTTP) | 
+**Thanos-sidecar** | 10901(gRPC),10902(HTTP) | 
+**Thanos-query** | 10901(gRPC),9090(HTTP) | 
+**Thanos-store** | 10901(gRPC),10902(HTTP) | 
+**Thanos-rule** | 10901(gRPC),10902(HTTP) | 
+**Thanos-compact** | 10902(HTTP) | 
 
 # prerequisite
 1. Clone repo
