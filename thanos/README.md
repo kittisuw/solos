@@ -19,15 +19,19 @@ https://github.com/kittisuw/thanos/blob/master/kube-prometheus/README.md
 kubectl apply -f thanos-rule-configmap.yaml
 kubectl apply -f thanos-query.yaml -f thanos-store.yaml -f thanos-rule.yaml -f thanos-compact.yaml
 ``` 
-### Set port forward and Test Thanos-query,Thanos-rule,Alertmanager via browser
+### Set port forward and Test Thanos-query,Thanos-rule,Thanos-Alertmanager via browser
 ``` 
 (
 kubectl -n thanos port-forward --address 0.0.0.0 svc/thanos-query 9090 &
 kubectl -n thanos port-forward --address 0.0.0.0 service/thanos-rule 10902 &
-kubectl -n thanos port-forward --address 0.0.0.0 service/promstack-kube-prometheus-alertmanager 9093 &
-kubectl -n thanos port-forward --address 0.0.0.0 service/promstack-grafana 80 & 
+kubectl -n thanos port-forward --address 0.0.0.0 service/alertmanager-main 9093 &
+kubectl -n thanos port-forward --address 0.0.0.0 service/grafana 80 & 
 )
-``` 
+```
+or set ingress
+```
+k apply -f thanos-ing.yaml
+```
 
 # Uninstallations
 ``` 
