@@ -12,20 +12,32 @@ Service | Internal port | Public port
 **Thanos-compact** | 10901(gRPC)  | 1234
 
 # prerequisite
-1.create namespace:thanos and apply S3 secret for object storage that thanos-store and thanos-sidcar using
+1.Clone repo
+```
+git clone https://github.com/kittisuw/solos.git
+```
+# Installation kube-prometheus (`Prometheus-operator include Thanos-sidcar`,`Prometheus rules`,`Alertmanager`,`Grafana`)
+2.create namespace:thanos and apply S3 secret for object storage that thanos-store and thanos-sidcar using
 ``` 
 kubectl create namespace thanos
+cd thanos
 kubectl apply -f thanos-storage-config.yaml
+cd ../kube-prometheus
+kubectl create -f manifests/setup
+until kubectl get servicemonitors --all-namespaces ; do date; sleep 1; echo ""; done
+kubectl create -f manifests/
 ``` 
-# Installation kube-prometheus (`Prometheus-operator include Thanos-sidcar`,`Prometheus rules`,`Alertmanager`,`Grafana`)
-https://github.com/kittisuw/thanos/blob/master/kube-prometheus/README.md
+3.check all
+``` 
+kubectl get all -n thanos
+``` 
 # Installation Thanos rule config map and main component(`query`,`store`,`rule`,`compact`)
 2.
 ``` 
 kubectl apply -f thanos-rule-configmap.yaml
 kubectl apply -f thanos-query.yaml -f thanos-store.yaml -f thanos-rule.yaml -f thanos-compact.yaml
 ``` 
-### Set port forward and Test Thanos-query,Thanos-rule,Thanos-Alertmanager,Grafana via browser
+### Set port-forward or ingress for view Thanos-query,Thanos-rule,Thanos-Alertmanager,Grafana via browser
 ``` 
 (
 kubectl -n thanos port-forward --address 0.0.0.0 svc/thanos-query 9090 &
@@ -49,4 +61,4 @@ kubectl delete crd podmonitors.monitoring.coreos.com
 kubectl delete crd alertmanagers.monitoring.coreos.com
 kubectl delete crd thanosrulers.monitoring.coreos.com
 kubectl delete ns/thanos
-``` 
+```
