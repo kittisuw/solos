@@ -46,7 +46,7 @@ $ kubectl apply -f thanos-query.yaml -f thanos-store.yaml -f thanos-rule.yaml -f
 6. Set port-forward or ingress for view Thanos-query,Thanos-rule,Thanos-Alertmanager,Grafana via browser
 ``` 
 $ (
-kubectl -n thanos port-forward --address 0.0.0.0 svc/thanos-query 9090 &
+kubectl -n thanos port-forward --address 0.0.0.0 service/thanos-query 9090 &
 kubectl -n thanos port-forward --address 0.0.0.0 service/thanos-rule 10902 &
 kubectl -n thanos port-forward --address 0.0.0.0 service/alertmanager-main 9093 &
 kubectl -n thanos port-forward --address 0.0.0.0 service/grafana 3000 & 
