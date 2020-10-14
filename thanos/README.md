@@ -3,12 +3,12 @@
 Component | Port(Interface) | Expose port
 ------------ | ------------- | -------------
 **Prometheus** | 10901(HTTP) | 
-**Grafana** | 3000(HTTP) | 
+**Grafana** | 3000(HTTP) | 3000(HTTP)
 **Alertmanager**| 9093(HTTP) | 
 **Thanos-sidecar** | 10901(gRPC),10902(HTTP) | 
-**Thanos-query** | 10901(gRPC),9090(HTTP) | 
+**Thanos-query** | 10901(gRPC),9090(HTTP) | 9090(HTTP)
 **Thanos-store** | 10901(gRPC),10902(HTTP) | 
-**Thanos-rule** | 10901(gRPC),10902(HTTP) | 
+**Thanos-rule** | 10901(gRPC),10902(HTTP) | 10902(HTTP)
 **Thanos-compact** | 10902(HTTP) | 
 
 # prerequisite
@@ -49,7 +49,7 @@ $ (
 kubectl -n thanos port-forward --address 0.0.0.0 svc/thanos-query 9090 &
 kubectl -n thanos port-forward --address 0.0.0.0 service/thanos-rule 10902 &
 kubectl -n thanos port-forward --address 0.0.0.0 service/alertmanager-main 9093 &
-kubectl -n thanos port-forward --address 0.0.0.0 service/grafana 80 & 
+kubectl -n thanos port-forward --address 0.0.0.0 service/grafana 3000 & 
 )
 ```
 or set ingress
