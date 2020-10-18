@@ -32,7 +32,6 @@ metadata:
   name: thanos-query
   namespace: thanos
 spec:
-  #replicas: 1
   selector:
     matchLabels:
       app.kubernetes.io/component: query-layer
@@ -60,6 +59,9 @@ spec:
               - thanos
               topologyKey: kubernetes.io/hostname
             weight: 100
+      securityContext:
+        runAsUser: 10000
+        runAsGroup: 10000
       containers:
       - args:
         - query
@@ -70,7 +72,12 @@ spec:
         - --store=dnssrv+_grpc._tcp.thanos-store.thanos.svc.cluster.local
         - --store=thanos-store.thanos.svc.cluster.local:10901
         - --store=prometheus-operated.thanos.svc.cluster.local:10901 
+        - --store=10.235.163.100:10901
         image: quay.io/thanos/thanos:v0.12.0
+        imagePullPolicy: Always
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
         resources:
           requests:
             memory: "256Mi"
@@ -78,13 +85,22 @@ spec:
           limits:
             memory: "512Mi"
             cpu: "500m"
-        livenessProbe:
-          failureThreshold: 4
+        readinessProbe:
           httpGet:
             path: /-/healthy
             port: 9090
             scheme: HTTP
-          periodSeconds: 30
+          initialDelaySeconds: 15
+          periodSeconds: 5
+          timeoutSeconds: 2
+        livenessProbe:
+          httpGet:
+            path: /-/healthy
+            port: 9090
+            scheme: HTTP
+          initialDelaySeconds: 15
+          periodSeconds: 15
+          timeoutSeconds: 2
         name: thanos-query
         ports:
         - containerPort: 10901
@@ -100,6 +116,24 @@ spec:
           periodSeconds: 5
         terminationMessagePolicy: FallbackToLogsOnError
       terminationGracePeriodSeconds: 120
+---
+apiVersion: policy/v1beta1
+kind: PodDisruptionBudget
+metadata:
+  name: thanos-query-pdb
+  namespace: thanos
+  labels:
+    app.kubernetes.io/component: query-layer
+    app.kubernetes.io/instance: thanos-query
+    app.kubernetes.io/name: thanos-query
+    app.kubernetes.io/version: v0.12.0
+spec:
+  minAvailable: 2
+  selector:
+    matchLabels: 
+      app.kubernetes.io/component: query-layer
+      app.kubernetes.io/instance: thanos-query
+      app.kubernetes.io/name: thanos-query
 ---
 apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
