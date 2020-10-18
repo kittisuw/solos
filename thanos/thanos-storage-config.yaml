@@ -1,7 +1,7 @@
 type: s3
 config:
   bucket: thanosbucket #S3 bucket name
-  endpoint: rgw.solos.velonica.tls #S3 Regional endpoint
+  endpoint: rgw.solos.velonica.tls #S3 endpoint
   access_key: thanos@k8s
   secret_key: 6cAusrk.n7uthguhgjhxgtlnrSkjpxzn
   insecure: true
