@@ -1,4 +1,4 @@
-![Overview](https://github.com/kittisuw/solos/blob/master/thanos/img/overview.jpg)
+![Overview](https://github.com/kittisuw/solos/blob/master/thanos/img/overview.png)
 # Service port overview
 Component | Port(Interface) | Expose port
 ------------ | ------------- | -------------
