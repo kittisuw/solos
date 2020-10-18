@@ -33,7 +33,6 @@ metadata:
   name: thanos-rule
   namespace: thanos
 spec:
-  #replicas: 1
   selector:
     matchLabels:
       app.kubernetes.io/component: rule-evaluation-engine
@@ -48,6 +47,18 @@ spec:
         app.kubernetes.io/name: thanos-rule
         app.kubernetes.io/version: v0.12.0
     spec:
+      affinity:
+        podAntiAffinity:
+            preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                  - key: app.kubernetes.io/name
+                    operator: In
+                    values:
+                    - thanos-rule
+                topologyKey: kubernetes.io/hostname
       containers:
       - args:
         - rule
@@ -58,7 +69,7 @@ spec:
         - --alert.label-drop="rule_replica"
         - --rule-file=/etc/thanos-ruler/*.rules.yaml
         - --query=dnssrv+_http._tcp.thanos-query.thanos.svc.cluster.local
-        - --alertmanagers.url=http://alertmanager-main.thanos.svc.cluster.local:9093
+        - --alertmanagers.url=http://alertmanager-main.thanos:9093
         #- --alertmanagers.url=dnssrv+_http._tcp.alertmanager-operated.thanos.svc.cluster.local
         env:
         - name: NAME
@@ -71,6 +82,7 @@ spec:
               key: thanos-storage-config.yaml
               name: thanos-storage-config
         image: quay.io/thanos/thanos:v0.12.0
+        imagePullPolicy: Always
         resources:
           requests:
             memory: "256Mi"
@@ -78,13 +90,22 @@ spec:
           limits:
             memory: "512Mi"
             cpu: "500m"
-        livenessProbe:
-          failureThreshold: 24
+        readinessProbe:
           httpGet:
             path: /-/healthy
             port: 10902
             scheme: HTTP
+          initialDelaySeconds: 15
           periodSeconds: 5
+          timeoutSeconds: 2
+        livenessProbe:
+          httpGet:
+            path: /-/healthy
+            port: 10902
+            scheme: HTTP
+          initialDelaySeconds: 15
+          periodSeconds: 15
+          timeoutSeconds: 2        
         name: thanos-rule
         ports:
         - containerPort: 10901
@@ -126,6 +147,24 @@ spec:
       resources:
         requests:
           storage: 500Mi
+---
+apiVersion: policy/v1beta1
+kind: PodDisruptionBudget
+metadata:
+  name: thanos-rule-pdb
+  namespace: thanos
+  labels:
+    app.kubernetes.io/component: rule-evaluation-engine
+    app.kubernetes.io/instance: thanos-rule
+    app.kubernetes.io/name: thanos-rule
+    app.kubernetes.io/version: v0.12.0
+spec:
+  minAvailable: 2
+  selector:
+    matchLabels:
+       app.kubernetes.io/component: rule-evaluation-engine
+       app.kubernetes.io/instance: thanos-rule
+       app.kubernetes.io/name: thanos-rule
 ---
 apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
