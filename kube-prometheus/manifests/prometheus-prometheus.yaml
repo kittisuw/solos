@@ -19,7 +19,8 @@ spec:
   replicas: 2
   resources:
     requests:
-      memory: 400Mi
+      memory: 1Gi
+      cpu: 1000m
   ruleSelector:
     matchLabels:
       prometheus: k8s
