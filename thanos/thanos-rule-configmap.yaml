@@ -4,30 +4,188 @@ metadata:
   name: thanos-ruler-rules
   namespace: thanos
 data:
-  alert_InstanceDown.rules.yaml: |
+  alert_k8s.rules.yaml: |
     groups:
-        - name: natthasw_ex
-          rules:
+    - name: kubernetes-system
+      rules:
+      - alert: KubeNodeNotReady
+        expr: |
+          kube_node_status_condition{job="kube-state-metrics",condition="Ready",status="true"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          module: 'StandardFormat'
+          amoName: "[{{ $labels.prometheus }}] kube node {{ $labels.node }} Down"
+          alarmName: 'Kube Node Not Ready'
+          description: "Desc=Node {{ $labels.node }} has been unready for more than an 1 minutes"
+          node: '{{ $labels.node }}'
+          systemName: '{{ $labels.prometheus }}'
+          emsName: '{{ $labels.prometheus }}'
+          mcZone: ''
+          emsIp: '{{ $labels.instance }}'
+          siteCode: '{{ $labels.prometheus }}'
+          severity: 'critical'
+          region: BKK
+          nodeIp: '{{ $labels.instance }}'
+          networkType: VTOP
+          msisdns: '66801145158'
+          msteamUrl: 'https://outlook.office.com/webhook/fd5b48e7-d8ac-4b17-ae4c-02647856d040@833df664-61c8-4af0-bcce-b9eed5f10e5a/IncomingWebhook/368188ddbc6a4ae99f8e7256b96e2220/b37a0e68-660d-4fab-93f5-f414552ef720'
 
-          # Alert for test.
-          - alert: InstanceDown
-            expr: grafana_api_models_dashboard_insert_total < 50
-            for: 5s
-            labels:
-                severity: critical
-            annotations:
-                module: '{{ $labels.job }}'
-                amoName: '{{ $labels.pod }}'
-                alarmName: 'InstanceDown'
-                description: "{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 5 sec."
-                node: '{{ $labels.job }}'
-                systemName: '{{ $labels.service }}'
-                emsName: '{{ $labels.pod }}'
-                mcZone: ''
-                emsIp: '{{ $labels.instance }}'
-                siteCode: '{{ $labels.pod }}'
-                severity: 'critical'
-                region: BKK
-                nodeIp: '{{ $labels.instance }}'
-                networkType: VTOP
-                msteamUrl: 'https://outlook.office.com/webhook/fd5b48e7-d8ac-4b17-ae4c-02647856d040@833df664-61c8-4af0-bcce-b9eed5f10e5a/IncomingWebhook/368188ddbc6a4ae99f8e7256b96e2220/b37a0e68-660d-4fab-93f5-f414552ef720'
+    - name: kubernetes-app
+      rules:
+      - alert: KubePodNotReady
+        expr: |
+          sum by (namespace, pod, instance, prometheus) (kube_pod_status_phase{job="kube-state-metrics", phase=~"Pending|Unknown"}) > 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          module: 'StandardFormat'
+          amoName: "[{{ $labels.prometheus }}] kube pod {{ $labels.pod }} not Ready"
+          alarmName: 'KubePodNotReady'
+          description: "Desc=Pod {{ $labels.namespace }}/{{ $labels.pod }} has been in a non-ready"
+          node: '{{ $labels.namespace }}'
+          systemName: '{{ $labels.prometheus }}'
+          emsName: '{{ $labels.prometheus }}'
+          mcZone: ''
+          emsIp: '{{ $labels.instance }}'
+          siteCode: '{{ $labels.prometheus }}'
+          severity: 'critical'
+          region: BKK
+          nodeIp: '{{ $labels.instance }}'
+          networkType: VTOP
+          msisdns: '66801145158'
+          msteamUrl: 'https://outlook.office.com/webhook/fd5b48e7-d8ac-4b17-ae4c-02647856d040@833df664-61c8-4af0-bcce-b9eed5f10e5a/IncomingWebhook/368188ddbc6a4ae99f8e7256b96e2220/b37a0e68-660d-4fab-93f5-f414552ef720'
+
+      - alert: KubePodCrashLooping
+        expr: |
+          rate(kube_pod_container_status_restarts_total{job="kube-state-metrics"}[15m]) * 60 * 5 > 0
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          module: 'StandardFormat'
+          amoName: "[{{ $labels.prometheus }}] Pod {{ $labels.namespace }}/{{ $labels.pod }} ({{ $labels.container }}) Restart over"
+          alarmName: 'KubePodCrashLooping'
+          description: 'Desc={{ $labels.namespace }}/{{ $labels.pod }} ({{ $labels.container }}) is restarting {{ printf "%.2f" $value }} times / 5 minutes.'
+          node: '{{ $labels.namespace }}'
+          systemName: '{{ $labels.namespace }}'
+          emsName: '{{ $labels.prometheus }}'
+          mcZone: ''
+          emsIp: '{{ $labels.instance }}'
+          siteCode: '{{ $labels.prometheus }}'
+          severity: 'critical'
+          region: BKK
+          nodeIp: '{{ $labels.instance }}'
+          networkType: VTOP
+          msisdns: '66801145158'
+          msteamUrl: 'https://outlook.office.com/webhook/fd5b48e7-d8ac-4b17-ae4c-02647856d040@833df664-61c8-4af0-bcce-b9eed5f10e5a/IncomingWebhook/368188ddbc6a4ae99f8e7256b96e2220/b37a0e68-660d-4fab-93f5-f414552ef720'
+
+      - alert: KubeQuotaExceeded(major)
+        expr: |
+          100 * kube_resourcequota{job="kube-state-metrics", type="used"}
+            / ignoring(job, type)
+          (kube_resourcequota{job="kube-state-metrics", type="hard"} > 0)
+            > 90
+        for: 1m
+        labels:
+          severity: major
+        annotations:
+          module: 'StandardFormat'
+          amoName: "[{{ $labels.prometheus }}] Namespace {{ $labels.namespace }} using over {{ $labels.resource }} quota."
+          alarmName: 'KubeQuotaExceeded'
+          description: 'Desc=Namespace {{ $labels.namespace }} is using {{ printf "%0.0f" $value }}% of its {{ $labels.resource }} quota.'
+          node: '{{ $labels.namespace }}'
+          systemName: '{{ $labels.namespace }}'
+          emsName: '{{ $labels.prometheus }}'
+          mcZone: ''
+          emsIp: '{{ $labels.instance }}'
+          siteCode: '{{ $labels.prometheus }}'
+          severity: 'major'
+          region: BKK
+          nodeIp: '{{ $labels.instance }}'
+          networkType: VTOP
+          msisdns: '66801145158'
+          msteamUrl: 'https://outlook.office.com/webhook/fd5b48e7-d8ac-4b17-ae4c-02647856d040@833df664-61c8-4af0-bcce-b9eed5f10e5a/IncomingWebhook/368188ddbc6a4ae99f8e7256b96e2220/b37a0e68-660d-4fab-93f5-f414552ef720'
+      - alert: KubeQuotaExceeded(minor)
+        expr: |
+          100 * kube_resourcequota{job="kube-state-metrics", type="used"}
+            / ignoring(job, type)
+          (kube_resourcequota{job="kube-state-metrics", type="hard"} > 0)
+            > 80
+        for: 1m
+        labels:
+          severity: minor
+        annotations:
+          module: 'StandardFormat'
+          amoName: "[{{ $labels.prometheus }}] Namespace {{ $labels.namespace }} using over {{ $labels.resource }} quota."
+          alarmName: 'KubeQuotaExceeded'
+          description: 'Desc=Namespace {{ $labels.namespace }} is using {{ printf "%0.0f" $value }}% of its {{ $labels.resource }} quota.'
+          node: '{{ $labels.namespace }}'
+          systemName: '{{ $labels.namespace }}'
+          emsName: '{{ $labels.prometheus }}'
+          mcZone: ''
+          emsIp: '{{ $labels.instance }}'
+          siteCode: '{{ $labels.prometheus }}'
+          severity: 'minor'
+          region: BKK
+          nodeIp: '{{ $labels.instance }}'
+          networkType: VTOP
+          msisdns: '66801145158'
+          msteamUrl: 'https://outlook.office.com/webhook/fd5b48e7-d8ac-4b17-ae4c-02647856d040@833df664-61c8-4af0-bcce-b9eed5f10e5a/IncomingWebhook/368188ddbc6a4ae99f8e7256b96e2220/b37a0e68-660d-4fab-93f5-f414552ef720'
+      - alert: KubeQuotaExceeded(critical)
+        expr: |
+          100 * kube_resourcequota{job="kube-state-metrics", type="used"}
+            / ignoring(job, type)
+          (kube_resourcequota{job="kube-state-metrics", type="hard"} > 0)
+            > 95
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          module: 'StandardFormat'
+          amoName: "[{{ $labels.prometheus }}] Namespace {{ $labels.namespace }} using over {{ $labels.resource }} quota."
+          alarmName: 'KubeQuotaExceeded'
+          description: 'Desc=Namespace {{ $labels.namespace }} is using {{ printf "%0.0f" $value }}% of its {{ $labels.resource }} quota.'
+          node: '{{ $labels.namespace }}'
+          systemName: '{{ $labels.namespace }}'
+          emsName: '{{ $labels.prometheus }}'
+          mcZone: ''
+          emsIp: '{{ $labels.instance }}'
+          siteCode: '{{ $labels.prometheus }}'
+          severity: 'critical'
+          region: BKK
+          nodeIp: '{{ $labels.instance }}'
+          networkType: VTOP
+          msisdns: '66801145158'
+          msteamUrl: 'https://outlook.office.com/webhook/fd5b48e7-d8ac-4b17-ae4c-02647856d040@833df664-61c8-4af0-bcce-b9eed5f10e5a/IncomingWebhook/368188ddbc6a4ae99f8e7256b96e2220/b37a0e68-660d-4fab-93f5-f414552ef720'
+
+
+
+  alert_elk.rules.yaml: | 
+    groups:
+    - name: elasticsearch-system
+      rules:
+      - alert: ElasticsearchHealthStatus
+        expr: elasticsearch_cluster_health_status{color="yellow"} == 1
+        for: 5m
+        labels:
+          severity: major
+        annotations:
+          module: 'StandardFormat'
+          amoName: "[ELK] Cluster {{ $labels.cluster }} Health {{ $labels.color }}"
+          alarmName: 'ElasticsearchHealthStatus'
+          description: 'Desc=Elasticsearch cluster {{ $labels.cluster }} Health {{ $labels.color }}'
+          node: '{{ $labels.job }}'
+          systemName: '{{ $labels.job }}'
+          emsName: '{{ $labels.instance }}'
+          mcZone: ''
+          emsIp: '{{ $labels.instance }}'
+          siteCode: '{{ $labels.instance }}'
+          severity: 'major'
+          region: BKK
+          nodeIp: '{{ $labels.instance }}'
+          networkType: VTOP
+          msisdns: '66801145158;66817553335'
+          msteamUrl: 'https://outlook.office.com/webhook/fd5b48e7-d8ac-4b17-ae4c-02647856d040@833df664-61c8-4af0-bcce-b9eed5f10e5a/IncomingWebhook/368188ddbc6a4ae99f8e7256b96e2220/b37a0e68-660d-4fab-93f5-f414552ef720'
