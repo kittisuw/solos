@@ -33,7 +33,6 @@ metadata:
   name: thanos-store
   namespace: thanos
 spec:
-  #replicas: 1
   selector:
     matchLabels:
       app.kubernetes.io/component: object-store-gateway
@@ -48,6 +47,21 @@ spec:
         app.kubernetes.io/name: thanos-store
         app.kubernetes.io/version: v0.12.0
     spec:
+      affinity:
+        podAntiAffinity: 
+            preferredDuringSchedulingIgnoredDuringExecution: 
+            - weight: 100  
+              podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                  - key: app.kubernetes.io/name
+                    operator: In 
+                    values:
+                    - thanos-store
+                topologyKey: kubernetes.io/hostname
+      securityContext:
+        runAsUser: 10000
+        runAsGroup: 10000
       containers:
       - args:
         - store
@@ -62,6 +76,10 @@ spec:
               key: thanos-storage-config.yaml
               name: thanos-storage-config
         image: quay.io/thanos/thanos:v0.12.0
+        imagePullPolicy: Always
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
         resources:
           requests:
             memory: "256Mi"
@@ -69,13 +87,22 @@ spec:
           limits:
             memory: "512Mi"
             cpu: "500m"        
-        livenessProbe:
-          failureThreshold: 8
+        readinessProbe:
           httpGet:
             path: /-/healthy
             port: 10902
             scheme: HTTP
-          periodSeconds: 30
+          initialDelaySeconds: 15
+          periodSeconds: 5 
+          timeoutSeconds: 2
+        livenessProbe:
+          httpGet:
+            path: /-/healthy
+            port: 10902
+            scheme: HTTP
+          initialDelaySeconds: 15
+          periodSeconds: 15
+          timeoutSeconds: 2
         name: thanos-store
         ports:
         - containerPort: 10901
@@ -110,6 +137,24 @@ spec:
       resources:
         requests:
           storage: 500Mi
+---
+apiVersion: policy/v1beta1
+kind: PodDisruptionBudget
+metadata:
+  name: thanos-store-pdb
+  namespace: thanos
+  labels:
+    app.kubernetes.io/component: object-store-gateway
+    app.kubernetes.io/instance: thanos-store
+    app.kubernetes.io/name: thanos-store
+    app.kubernetes.io/version: v0.12.0
+spec:
+  minAvailable: 2
+  selector:
+    matchLabels:
+       app.kubernetes.io/component: object-store-gateway
+       app.kubernetes.io/instance: thanos-store
+       app.kubernetes.io/name: thanos-store
 ---
 apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
